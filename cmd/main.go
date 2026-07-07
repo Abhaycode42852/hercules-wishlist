@@ -50,6 +50,7 @@ func main() {
 	wishlistService :=
 		services.NewWishlistService(
 			wishlistRepo,
+			bondRepo,
 		)
 
 	// Wishlist Handler

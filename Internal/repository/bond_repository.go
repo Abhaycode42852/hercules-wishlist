@@ -22,6 +22,7 @@ func (r *BondRepository) GetAllBonds(
 	limit int,
 	offset int,
 	orderBy string,
+	order string,
 ) ([]models.Bond, error) {
 
 	var bonds []models.Bond
@@ -29,10 +30,10 @@ func (r *BondRepository) GetAllBonds(
 	query := fmt.Sprintf(`
 		SELECT *
 		FROM bonds
-		ORDER BY %s
+		ORDER BY %s %s
 		LIMIT $1
 		OFFSET $2
-	`, orderBy)
+	`, orderBy, order)
 
 	err := r.db.Select(
 		&bonds,
@@ -46,4 +47,46 @@ func (r *BondRepository) GetAllBonds(
 	}
 
 	return bonds, nil
+}
+
+func (r *BondRepository) BondExists(
+	id string,
+) (bool, error) {
+
+	var count int
+
+	err := r.db.Get(
+		&count,
+		`
+		SELECT COUNT(*)
+		FROM bonds
+		WHERE b_id = $1
+		`,
+		id,
+	)
+
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}
+
+func (r *BondRepository) GetBondCount() (int, error) {
+
+	var count int
+
+	err := r.db.Get(
+		&count,
+		`
+		SELECT COUNT(*)
+		FROM bonds
+		`,
+	)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
 }

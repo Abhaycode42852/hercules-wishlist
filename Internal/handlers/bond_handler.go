@@ -38,15 +38,33 @@ func (h *BondHandler) GetAllBonds(
 		"name",
 	)
 
+	order := c.DefaultQuery(
+		"order",
+		"asc",
+	)
+
 	bonds, err := h.service.GetAllBonds(
 		page,
 		limit,
 		sort,
+		order,
 	)
 
 	if err != nil {
 		c.JSON(
 			http.StatusBadRequest,
+			gin.H{
+				"error": err.Error(),
+			},
+		)
+		return
+	}
+
+	total, err := h.service.GetBondCount()
+
+	if err != nil {
+		c.JSON(
+			http.StatusInternalServerError,
 			gin.H{
 				"error": err.Error(),
 			},
@@ -60,6 +78,7 @@ func (h *BondHandler) GetAllBonds(
 			"page":  page,
 			"limit": limit,
 			"data":  bonds,
+			"total": total,
 		},
 	)
 }

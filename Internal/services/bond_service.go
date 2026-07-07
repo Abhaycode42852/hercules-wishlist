@@ -23,6 +23,7 @@ func (s *BondService) GetAllBonds(
 	page int,
 	limit int,
 	sort string,
+	order string,
 ) ([]models.Bond, error) {
 
 	if page < 1 {
@@ -57,9 +58,22 @@ func (s *BondService) GetAllBonds(
 		orderBy = "name"
 	}
 
+	if order != "asc" && order != "desc" {
+		order = "asc"
+	}
+
 	return s.repo.GetAllBonds(
 		limit,
 		offset,
 		orderBy,
+		order,
 	)
+}
+
+func (s *BondService) GetBondCount() (
+	int,
+	error,
+) {
+
+	return s.repo.GetBondCount()
 }

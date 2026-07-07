@@ -46,5 +46,15 @@ func RegisterRoutes(
 			"/wishlist/:id",
 			wishlistHandler.DeleteWishlist,
 		)
+
+		v1.POST(
+			"/wishlist/:id/add-bonds",
+			wishlistHandler.AddBondToWishlist,
+		)
+
+		v1.DELETE(
+			"/wishlist/:id/bonds/:bondId",
+			wishlistHandler.RemoveBondFromWishlist,
+		)
 	}
 }

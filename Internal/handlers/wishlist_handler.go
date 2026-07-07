@@ -185,3 +185,80 @@ func (h *WishlistHandler) DeleteWishlist(
 		},
 	)
 }
+
+func (h *WishlistHandler) AddBondToWishlist(
+	c *gin.Context,
+) {
+
+	wishlistID := c.Param("id")
+
+	var req struct {
+		BondID string `json:"bond_id"`
+	}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"error": err.Error(),
+			},
+		)
+		return
+	}
+
+	err := h.service.AddBondToWishlist(
+		wishlistID,
+		req.BondID,
+	)
+
+	if err != nil {
+
+		c.JSON(
+			http.StatusConflict,
+			gin.H{
+				"error": err.Error(),
+			},
+		)
+
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		gin.H{
+			"message": "bond added to wishlist",
+		},
+	)
+}
+
+func (h *WishlistHandler) RemoveBondFromWishlist(
+	c *gin.Context,
+) {
+
+	wishlistID := c.Param("id")
+	bondID := c.Param("bondId")
+
+	err := h.service.RemoveBondFromWishlist(
+		wishlistID,
+		bondID,
+	)
+
+	if err != nil {
+
+		c.JSON(
+			http.StatusNotFound,
+			gin.H{
+				"error": err.Error(),
+			},
+		)
+
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		gin.H{
+			"message": "bond removed from wishlist",
+		},
+	)
+}
