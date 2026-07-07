@@ -42,10 +42,27 @@ func main() {
 	// Handler
 	bondHandler := handlers.NewBondHandler(bondService)
 
+	// Wishlist Repository
+	wishlistRepo :=
+		repository.NewWishlistRepository(db)
+
+	// Wishlist Service
+	wishlistService :=
+		services.NewWishlistService(
+			wishlistRepo,
+		)
+
+	// Wishlist Handler
+	wishlistHandler :=
+		handlers.NewWishlistHandler(
+			wishlistService,
+		)
+
 	// Routes
 	routes.RegisterRoutes(
 		router,
 		bondHandler,
+		wishlistHandler,
 	)
 
 	log.Println("Server Running on :8080")
