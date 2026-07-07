@@ -72,25 +72,178 @@ git clone https://github.com/Abhaycode42852/wishlist-backend.git
 cd wishlist-backend
 ```
 
-### 2. Create Database
+### 2. Database Setup
 
-Create a PostgreSQL database named:
+# PostgreSQL Installation & Setup Guide
+
+This project uses **PostgreSQL** as its database. Follow the steps below to install PostgreSQL, create the database, and configure the application.
+
+---
+
+# 1. Download PostgreSQL
+
+Visit the official PostgreSQL website:
+
+🔗 https://www.postgresql.org/download/
+
+Select your operating system:
+
+- Windows
+- macOS
+- Linux
+
+For Windows users, click:
+
+```text
+Download the installer certified by EDB
+```
+
+This will redirect you to:
+
+🔗 https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+
+---
+
+# 2. Install PostgreSQL
+
+Run the downloaded installer.
+
+During installation:
+
+### Components
+
+Keep the default selections:
+
+```text
+✓ PostgreSQL Server
+✓ pgAdmin 4
+✓ Stack Builder
+✓ Command Line Tools
+```
+
+### Installation Directory
+
+Use the default location unless you have a specific preference.
+
+### Set Database Password
+
+You will be asked to create a password for the PostgreSQL superuser (`postgres`).
+
+Example:
+
+```text
+Username: postgres
+Password: your_password
+```
+
+⚠️ Remember this password. It will be required later in the `.env` file.
+
+### Port
+
+Keep the default PostgreSQL port:
+
+```text
+5432
+```
+
+### Locale
+
+Use the default locale and continue.
+
+Finish the installation.
+
+---
+
+# 3. Verify Installation
+
+Open:
+
+```text
+pgAdmin 4
+```
+
+You should see:
+
+```text
+Servers
+└── PostgreSQL
+```
+
+If pgAdmin opens successfully, PostgreSQL has been installed correctly.
+
+---
+
+# 4. Create the Database
+
+Open pgAdmin.
+
+Right-click:
+
+```text
+Databases
+```
+
+Select:
+
+```text
+Create → Database
+```
+
+Enter:
+
+```text
+Database Name: wishlist_db
+```
+
+Click:
+
+```text
+Save
+```
+
+The database should now appear under:
+
+```text
+Databases
+└── wishlist_db
+```
+
+---
+
+# 5. Execute Database Schema
+
+Open:
 
 ```text
 wishlist_db
 ```
 
-### 3. Run Database Script
+Select:
 
-Execute:
+```text
+Tools → Query Tool
+```
+
+Open the project's:
 
 ```text
 setup.sql
 ```
 
-using pgAdmin or psql.
+Execute the script.
 
-### 4. Configure Environment Variables
+You should see tables similar to:
+
+```text
+public
+├── bonds
+├── wishlists
+└── wishlist_bonds
+```
+
+---
+
+### 3. Configure Environment Variables
 
 Create:
 
@@ -114,7 +267,7 @@ DB_PASSWORD=your_password
 DB_NAME=wishlist_db
 ```
 
-### 5. Install Dependencies
+### 4. Install Dependencies
 
 ```bash
 go mod tidy
@@ -133,7 +286,7 @@ http://localhost:8080
 ```
 ---
 
-## 4. Add Database Schema Section
+## 5. Add Database Schema Section
 
 
 # Database Schema
@@ -296,7 +449,7 @@ Body:
 DELETE /api/v1/wishlist/:id/bonds/:bondId
 ```
 ---
-## 5. Sample Responses
+## Sample Responses
 
 ```md
 GET /api/v1/all-bonds
