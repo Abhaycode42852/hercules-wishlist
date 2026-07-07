@@ -42,7 +42,7 @@ wishlist-backend/
 ### 1. Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Abhaycode42852/wishlist-backend.git
 cd wishlist-backend
 ```
 
