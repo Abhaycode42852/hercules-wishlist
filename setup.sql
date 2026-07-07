@@ -40,7 +40,17 @@ CREATE TABLE IF NOT EXISTS bonds (
 
     issuer VARCHAR(30) NOT NULL,
 
-    isin VARCHAR(20) UNIQUE NOT NULL
+    isin VARCHAR(20) UNIQUE NOT NULL,
+
+    coupon_rate DECIMAL(5,2) NOT NULL,
+
+    logo_url TEXT,
+
+    min_investment NUMERIC(12,2),
+
+    face_value DECIMAL(12,2),
+
+    sector VARCHAR(50),
 );
 
 -- ==========================

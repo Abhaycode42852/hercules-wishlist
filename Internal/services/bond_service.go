@@ -37,11 +37,12 @@ func (s *BondService) GetAllBonds(
 	offset := (page - 1) * limit
 
 	sortMap := map[string]string{
-		"name":      "name",
-		"yield":     "yield",
-		"frequency": "frequency",
-		"rating":    "rating",
-		"min_units": "min_units",
+		"name":           "name",
+		"yield":          "yield",
+		"frequency":      "frequency",
+		"rating":         "rating",
+		"min_units":      "min_units",
+		"min_investment": "min_investment",
 		"tenure": `
 			(EXTRACT(YEAR FROM maturity_date)
 			- EXTRACT(YEAR FROM CURRENT_DATE))

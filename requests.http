@@ -1,0 +1,271 @@
+########################################################
+# HOW TO USE
+#
+# 1. Create a wishlist
+# 2. Copy returned w_id into @wishlistId
+# 3. Get a bond b_id from /all-bonds
+# 4. Paste into @bondId
+# 5. Run wishlist bond requests
+########################################################
+@baseUrl = http://localhost:8080/api/v1
+
+###
+### VARIABLES
+###
+
+@wishlistId =
+@bondId =
+
+########################################################
+# BONDS
+########################################################
+
+###
+# Get All Bonds
+GET {{baseUrl}}/all-bonds
+
+###
+# Pagination
+GET {{baseUrl}}/all-bonds?page=1&limit=2
+
+###
+# Pagination Page 2
+GET {{baseUrl}}/all-bonds?page=2&limit=2
+
+###
+# Sort By Name ASC
+GET {{baseUrl}}/all-bonds?sort=name&order=asc
+
+###
+# Sort By Name DESC
+GET {{baseUrl}}/all-bonds?sort=name&order=desc
+
+###
+# Sort By Yield ASC
+GET {{baseUrl}}/all-bonds?sort=yield&order=asc
+
+###
+# Sort By Yield DESC
+GET {{baseUrl}}/all-bonds?sort=yield&order=desc
+
+###
+# Sort By Rating
+GET {{baseUrl}}/all-bonds?sort=rating&order=asc
+
+###
+# Sort By Frequency
+GET {{baseUrl}}/all-bonds?sort=frequency&order=asc
+
+###
+# Sort By Min Units
+GET {{baseUrl}}/all-bonds?sort=min_units&order=asc
+
+###
+# Sort By Min Investment
+GET {{baseUrl}}/all-bonds?sort=min_investment&order=asc
+
+###
+# Sort By Min Investment DESC
+GET {{baseUrl}}/all-bonds?sort=min_investment&order=desc
+
+###
+# Sort By Coupon Rate
+GET {{baseUrl}}/all-bonds?sort=coupon_rate&order=desc
+
+###
+# Sort By Face Value
+GET {{baseUrl}}/all-bonds?sort=face_value&order=asc
+
+###
+# Sort By Sector
+GET {{baseUrl}}/all-bonds?sort=sector&order=asc
+
+###
+# Sort By Tenure
+GET {{baseUrl}}/all-bonds?sort=tenure&order=desc
+
+########################################################
+# WISHLISTS
+########################################################
+
+###
+# Create Wishlist
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "Retirement Bonds"
+}
+
+###
+# Create Second Wishlist
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "High Yield Bonds"
+}
+
+###
+# Create Third Wishlist
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "Government Bonds"
+}
+
+###
+# Get All Wishlists
+GET {{baseUrl}}/wishlist
+
+###
+# Get Wishlist By ID
+GET {{baseUrl}}/wishlist/{{wishlistId}}
+
+###
+# Update Wishlist
+PUT {{baseUrl}}/wishlist/{{wishlistId}}
+Content-Type: application/json
+
+{
+    "name": "Long Term Bonds"
+}
+
+###
+# Delete Wishlist
+DELETE {{baseUrl}}/wishlist/{{wishlistId}}
+
+########################################################
+# WISHLIST BONDS
+########################################################
+
+###
+# Add Bond To Wishlist
+POST {{baseUrl}}/wishlist/{{wishlistId}}/bonds
+Content-Type: application/json
+
+{
+    "bond_id": "{{bondId}}"
+}
+
+###
+# Add Same Bond Again (Should Fail)
+POST {{baseUrl}}/wishlist/{{wishlistId}}/bonds
+Content-Type: application/json
+
+{
+    "bond_id": "{{bondId}}"
+}
+
+###
+# Get Wishlist With Bonds
+GET {{baseUrl}}/wishlist/{{wishlistId}}
+
+###
+# Remove Bond From Wishlist
+DELETE {{baseUrl}}/wishlist/{{wishlistId}}/bonds/{{bondId}}
+
+########################################################
+# VALIDATION TESTS
+########################################################
+
+###
+# Empty Wishlist Name
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": ""
+}
+
+###
+# Whitespace Wishlist Name
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "      "
+}
+
+###
+# Name > 50 Characters
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "ThisWishlistNameIsDefinitelyLongerThanFiftyCharactersAndShouldFailValidation"
+}
+
+###
+# Duplicate Wishlist Name
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "Retirement Bonds"
+}
+
+###
+# Invalid Wishlist UUID
+GET {{baseUrl}}/wishlist/00000000-0000-0000-0000-000000000000
+
+###
+# Invalid Bond UUID
+POST {{baseUrl}}/wishlist/{{wishlistId}}/bonds
+Content-Type: application/json
+
+{
+    "bond_id": "00000000-0000-0000-0000-000000000000"
+}
+
+########################################################
+# BUSINESS CONSTRAINT TESTS
+########################################################
+
+###
+# Wishlist #4
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "Corporate Bonds"
+}
+
+###
+# Wishlist #5
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "Tax Saver Bonds"
+}
+
+###
+# Wishlist #6 (Should Fail)
+POST {{baseUrl}}/wishlist
+Content-Type: application/json
+
+{
+    "name": "Extra Wishlist"
+}
+
+###
+# Add Bonds Until Limit Reached
+# Repeat with different bond IDs
+
+POST {{baseUrl}}/wishlist/{{wishlistId}}/bonds
+Content-Type: application/json
+
+{
+    "bond_id": "{{bondId}}"
+}
+
+###
+# 11th Bond (Should Fail)
+POST {{baseUrl}}/wishlist/{{wishlistId}}/bonds
+Content-Type: application/json
+
+{
+    "bond_id": "{{bondId}}"
+}

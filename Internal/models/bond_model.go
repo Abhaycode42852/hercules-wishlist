@@ -26,4 +26,14 @@ type Bond struct {
 	Issuer string `db:"issuer" json:"issuer"`
 
 	ISIN string `db:"isin" json:"isin"`
+
+	CouponRate float64 `db:"coupon_rate" json:"coupon_rate"`
+
+	LogoURL string `db:"logo_url" json:"logo_url"`
+
+	MinInvestment float64 `db:"min_investment" json:"min_investment"`
+
+	Sector string `db:"sector" json:"sector"`
+
+	FaceValue float64 `db:"face_value" json:"face_value"`
 }

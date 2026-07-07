@@ -1,4 +1,12 @@
-# Wishlist Backend Service
+<div align="center">
+
+# Bond Wishlist Service
+
+### A high-performance Go backend for managing bond wishlists.
+
+Built using **Go**, **Gin**, and **PostgreSQL**.
+
+</div>
 
 A RESTful backend service built with Go, Gin, and PostgreSQL that allows users to create wishlists and manage bonds inside them.
 
@@ -36,13 +44,31 @@ wishlist-backend/
 ```
 
 ---
+# Architecture
+
+```text
+HTTP Request
+     │
+     ▼
+ Gin Handler
+     │
+     ▼
+ Service Layer
+     │
+     ▼
+ Repository Layer
+     │
+     ▼
+ PostgreSQL
+```
+---
 
 ## Setup Instructions
 
 ### 1. Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Abhaycode42852/wishlist-backend.git
 cd wishlist-backend
 ```
 
@@ -104,6 +130,47 @@ Server starts on:
 
 ```text
 http://localhost:8080
+```
+---
+
+## 4. Add Database Schema Section
+
+
+# Database Schema
+
+## Bonds
+
+```text
+bonds
+├── b_id (UUID)
+├── name
+├── yield
+├── coupon_rate
+├── rating
+├── frequency
+├── min_investment
+├── min_units
+├── max_units
+├── face_value
+├── maturity_date
+├── issuer
+├── sector
+├── logo_url
+└── isin
+```
+## Wishlists
+```text
+wishlists
+├── w_id (UUID)
+├── name
+├── size
+└── created_at
+```
+## Wishlist_Bonds
+```text
+wishlist_bonds
+├── w_id
+└── b_id
 ```
 
 ---
@@ -228,6 +295,51 @@ Body:
 ```http
 DELETE /api/v1/wishlist/:id/bonds/:bondId
 ```
+---
+## 5. Sample Responses
+
+```md
+GET /api/v1/all-bonds
+```
+
+```json
+{
+  "page": 1,
+  "limit": 10,
+  "total": 5,
+  "data": [
+    {
+      "b_id": "...",
+      "name": "Government Bond",
+      "yield": 7.5,
+      "coupon_rate": 7.0,
+      "rating": "AAA",
+      "sector": "Government",
+      "face_value": 1000,
+      "logo_url": "..."
+    }
+  ]
+}
+```
+```md
+GET /api/v1/wishlist
+```
+
+```json
+[{
+  "w_id": <UUID>,
+  "name": "Wishlist",
+  "size": 5
+    },
+{
+  "w_id": <UUID>,
+  "name": "Wishlist2",
+  "size": 9
+    }
+  ]
+
+```
+---
 
 ---
 
