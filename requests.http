@@ -68,9 +68,6 @@ GET {{baseUrl}}/all-bonds?sort=min_investment&order=asc
 # Sort By Min Investment DESC
 GET {{baseUrl}}/all-bonds?sort=min_investment&order=desc
 
-###
-# Sort By Coupon Rate
-GET {{baseUrl}}/all-bonds?sort=coupon_rate&order=desc
 
 ###
 # Sort By Face Value
