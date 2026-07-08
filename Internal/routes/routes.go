@@ -37,7 +37,7 @@ func RegisterRoutes(
 			wishlistHandler.GetWishlistByID,
 		)
 
-		v1.PUT(
+		v1.PATCH(
 			"/wishlist/:id",
 			wishlistHandler.UpdateWishlist,
 		)

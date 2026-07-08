@@ -79,13 +79,25 @@ func (s *WishlistService) GetWishlistByID(
 	id string,
 ) (*models.WishlistDetails, error) {
 
-	return s.repo.GetWishlistWithBonds(id)
+	return s.repo.GetWishlistWithBonds(id) //this feature needs renaming but works fine without it
 }
 
 func (s *WishlistService) UpdateWishlist(
 	id string,
 	name string,
 ) error {
+	exists, err :=
+		s.repo.WishlistNameExists(name)
+
+	if err != nil {
+		return err
+	}
+
+	if exists {
+		return errors.New(
+			"name already exists choose a diffrent name",
+		)
+	}
 
 	return s.repo.UpdateWishlist(
 		id,

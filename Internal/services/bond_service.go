@@ -36,11 +36,43 @@ func (s *BondService) GetAllBonds(
 
 	offset := (page - 1) * limit
 
+	ratingOrder := `
+		CASE rating
+    		WHEN 'Sovereign' THEN 1
+    		WHEN 'AAA' THEN 2
+			WHEN 'AA+' THEN 3
+			WHEN 'AA' THEN 4
+			WHEN 'AA-' THEN 5
+			WHEN 'A+' THEN 6
+			WHEN 'A' THEN 7
+			WHEN 'A-' THEN 8
+			WHEN 'BBB+' THEN 9
+			WHEN 'BBB' THEN 10
+			WHEN 'BBB-' THEN 11
+			WHEN 'BB+' THEN 12
+			WHEN 'BB' THEN 13
+			WHEN 'BB-' THEN 14
+			WHEN 'B+' THEN 15
+			WHEN 'B' THEN 16
+			WHEN 'B-' THEN 17
+			ELSE 999
+		END
+		`
+	frequencyOrder := `
+		CASE rating
+    		WHEN 'Monthly' THEN 1
+			WHEN 'Quarterly' THEN 2
+			WHEN 'Half-Yearly' THEN 3
+			WHEN 'Yearly' THEN 4
+			ELSE 999
+		END
+		`
+
 	sortMap := map[string]string{
 		"name":           "name",
 		"yield":          "yield",
-		"frequency":      "frequency",
-		"rating":         "rating",
+		"frequency":      frequencyOrder,
+		"rating":         ratingOrder,
 		"min_units":      "min_units",
 		"min_investment": "min_investment",
 		"tenure": `

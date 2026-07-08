@@ -142,7 +142,7 @@ DELETE {{baseUrl}}/wishlist/{{wishlistId}}
 
 ###
 # Add Bond To Wishlist
-POST {{baseUrl}}/wishlist/{{wishlistId}}/bonds
+POST {{baseUrl}}/wishlist/{{wishlistId}}/add-bonds
 Content-Type: application/json
 
 {
@@ -151,7 +151,7 @@ Content-Type: application/json
 
 ###
 # Add Same Bond Again (Should Fail)
-POST {{baseUrl}}/wishlist/{{wishlistId}}/bonds
+POST {{baseUrl}}/wishlist/{{wishlistId}}/add-bonds
 Content-Type: application/json
 
 {

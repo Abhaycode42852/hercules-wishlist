@@ -132,6 +132,17 @@ func (h *WishlistHandler) UpdateWishlist(
 	)
 
 	if err != nil {
+
+		if err.Error() == "name already exists choose a diffrent name" {
+			c.JSON(
+				http.StatusConflict,
+				gin.H{
+					"error": err.Error(),
+				},
+			)
+			return
+		}
+
 		c.JSON(
 			http.StatusInternalServerError,
 			gin.H{
