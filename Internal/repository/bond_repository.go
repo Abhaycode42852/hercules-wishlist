@@ -90,3 +90,25 @@ func (r *BondRepository) GetBondCount() (int, error) {
 
 	return count, nil
 }
+
+func (r *BondRepository) GetTotalBondCount() (
+	int,
+	error,
+) {
+
+	var count int
+
+	err := r.db.Get(
+		&count,
+		`
+		SELECT COUNT(*)
+		FROM bonds
+		`,
+	)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}

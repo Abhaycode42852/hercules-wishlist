@@ -2,7 +2,8 @@ package services
 
 import (
 	"errors"
-
+	"fmt"
+	"math"
 	"wishlist-backend/internal/models"
 	"wishlist-backend/internal/repository"
 )
@@ -27,11 +28,35 @@ func (s *BondService) GetAllBonds(
 ) ([]models.Bond, error) {
 
 	if page < 1 {
-		page = 1
+		return nil, errors.New(
+			"page does not exist.",
+		)
 	}
 
 	if limit < 1 {
 		limit = 10
+	}
+
+	total, err := s.repo.GetTotalBondCount()
+
+	if err != nil {
+		return nil, err
+	}
+
+	totalPages := int(
+		math.Ceil(
+			float64(total) / float64(limit),
+		),
+	)
+
+	if total > 0 && page > totalPages {
+		return nil, errors.New(
+			fmt.Sprintf(
+				"page %d does not exist. last available page is %d",
+				page,
+				totalPages,
+			),
+		)
 	}
 
 	offset := (page - 1) * limit

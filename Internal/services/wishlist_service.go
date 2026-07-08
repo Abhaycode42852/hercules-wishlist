@@ -36,7 +36,7 @@ func (s *WishlistService) CreateWishlist(
 
 	if len(name) > 30 {
 		return nil, errors.New(
-			"wishlist name cannot exceed 50 characters",
+			"wishlist name cannot exceed 30 characters",
 		)
 	}
 
