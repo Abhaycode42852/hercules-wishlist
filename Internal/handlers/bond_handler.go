@@ -24,6 +24,10 @@ func NewBondHandler(
 func (h *BondHandler) GetAllBonds(
 	c *gin.Context,
 ) {
+	search := c.DefaultQuery(
+		"search",
+		"",
+	)
 
 	page, _ := strconv.Atoi(
 		c.DefaultQuery("page", "1"),
@@ -48,6 +52,7 @@ func (h *BondHandler) GetAllBonds(
 		limit,
 		sort,
 		order,
+		search,
 	)
 
 	if err != nil {

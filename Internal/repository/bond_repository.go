@@ -23,11 +23,38 @@ func (r *BondRepository) GetAllBonds(
 	offset int,
 	orderBy string,
 	order string,
+	search string,
 ) ([]models.Bond, error) {
 
 	var bonds []models.Bond
 
-	query := fmt.Sprintf(`
+	var query string
+	var err error
+
+	if search != "" {
+
+		query = fmt.Sprintf(`
+	SELECT *
+	FROM bonds
+	WHERE
+		similarity(name, $1) > 0.1
+		OR similarity(issuer, $1) > 0.1
+	ORDER BY %s %s
+	LIMIT $2
+	OFFSET $3
+`, orderBy, order)
+
+		err = r.db.Select(
+			&bonds,
+			query,
+			search,
+			limit,
+			offset,
+		)
+
+	} else {
+
+		query = fmt.Sprintf(`
 		SELECT *
 		FROM bonds
 		ORDER BY %s %s
@@ -35,12 +62,13 @@ func (r *BondRepository) GetAllBonds(
 		OFFSET $2
 	`, orderBy, order)
 
-	err := r.db.Select(
-		&bonds,
-		query,
-		limit,
-		offset,
-	)
+		err = r.db.Select(
+			&bonds,
+			query,
+			limit,
+			offset,
+		)
+	}
 
 	if err != nil {
 		return nil, err

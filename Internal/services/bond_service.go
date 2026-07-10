@@ -25,6 +25,7 @@ func (s *BondService) GetAllBonds(
 	limit int,
 	sort string,
 	order string,
+	search string,
 ) ([]models.Bond, error) {
 
 	if page < 1 {
@@ -125,6 +126,7 @@ func (s *BondService) GetAllBonds(
 		offset,
 		orderBy,
 		order,
+		search,
 	)
 }
 
